@@ -43,8 +43,15 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy"}
+    """Health check endpoint with database status."""
+    import os
+    db_url = os.getenv("DATABASE_URL", "NOT_SET")
+    is_cloud = "supabase" in db_url.lower() or "neon" in db_url.lower()
+    return {
+        "status": "healthy",
+        "database_connected": is_cloud,
+        "database_type": "Cloud" if is_cloud else "Local/None"
+    }
 
 # Register routers
 app.include_router(profile.router, prefix="/api", tags=["Profile"])
