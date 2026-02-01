@@ -1,0 +1,139 @@
+.education-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+/* Vertical Timeline Line */
+.education-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: -2rem;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.education-item:last-child::before {
+    bottom: 0;
+    height: 10px;
+}
+
+/* Timeline Dot */
+.education-item::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    border: 2px solid var(--bg-primary);
+}
+
+/* Prominent Entry (B.Tech) */
+.education-item.prominent {
+    margin-bottom: 3rem;
+}
+
+.education-item.prominent::after {
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-primary);
+    width: 12px;
+    height: 12px;
+    left: -5px;
+}
+
+.education-item.prominent::before {
+    background: var(--accent-gradient);
+}
+
+/* Typography Hierarchy */
+.education-degree {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.education-institution {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.education-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.meta-separator {
+    margin: 0 8px;
+    opacity: 0.5;
+}
+
+/* Secondary Entries (MPC / Class 10) */
+.education-item.secondary {
+    opacity: 0.8;
+}
+
+.education-item.secondary .education-degree {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.education-item.secondary .education-institution {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Current Badge */
+.current-badge {
+    font-size: 0.7rem;
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--accent-primary);
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+/* Achievements List (only for Prominent) */
+.education-achievements {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    list-style-type: none;
+}
+
+.education-achievements li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    position: relative;
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+.education-achievements li::before {
+    content: "→";
+    position: absolute;
+    left: -1.2rem;
+    color: var(--accent-primary);
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .education-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}

@@ -1,0 +1,112 @@
+.resume-page {
+    padding-bottom: var(--spacing-lg);
+}
+
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resume-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.resume-section-title {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    display: inline-block;
+}
+
+.resume-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+}
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.skill-group {
+    padding: var(--spacing-md);
+}
+
+.skill-group h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: var(--spacing-xs);
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.section-title-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-icon {
+    color: var(--accent-primary);
+}
+
+.about-intro-section {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.about-bio {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.8;
+}
+
+.about-contact-brief {
+    display: flex;
+    gap: var(--spacing-md);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.no-data {
+    text-align: center;
+    padding: var(--spacing-md);
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .resume-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+
+    .about-contact-brief {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "name": "bhargav-digital-resume",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:frontend": "cd frontend && npm run dev",
+        "dev:backend": "uvicorn api.index:app --reload --port 8000",
+        "install:all": "npm install --prefix frontend && pip install -r api/requirements.txt",
+        "build": "cd frontend && npm run build"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

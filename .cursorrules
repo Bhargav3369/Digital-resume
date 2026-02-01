@@ -1,0 +1,260 @@
+# Digital Resume Project - Cursor AI Rules
+
+## Project Overview
+Full-stack digital resume application with React + Vite frontend and FastAPI + Python backend, deployed on Vercel.
+
+## Tech Stack
+- **Frontend**: React 18, Vite, React Router v6, Axios
+- **Backend**: FastAPI (Python 3.9+), Mangum (Vercel serverless adapter)
+- **Database**: PostgreSQL (Neon/Supabase/Vercel Postgres)
+- **ORM**: SQLAlchemy
+- **Styling**: CSS3 with CSS variables (dark mode)
+- **Deployment**: Vercel (both frontend and backend)
+
+## Project Structure
+```
+resume-app/
+├── frontend/          # React + Vite application
+│   ├── src/
+│   │   ├── components/  # Reusable UI components
+│   │   ├── pages/       # Route-level components
+│   │   ├── services/    # API communication (Axios)
+│   │   └── styles/      # CSS files
+│   └── package.json
+├── api/              # FastAPI serverless functions
+│   ├── models/       # SQLAlchemy ORM models
+│   ├── schemas/      # Pydantic validation schemas
+│   ├── routers/      # API route handlers
+│   ├── services/     # Business logic
+│   └── index.py      # Mangum handler entry point
+└── vercel.json       # Vercel configuration
+```
+
+## Frontend Coding Standards
+
+### React Components
+- Use functional components with hooks (no class components)
+- Use arrow function syntax for components
+- Destructure props in function parameters
+- Use named exports for components
+
+Example:
+```javascript
+export const ComponentName = ({ prop1, prop2 }) => {
+  const [state, setState] = useState(initialValue);
+  
+  useEffect(() => {
+    // side effects
+  }, [dependencies]);
+  
+  return (
+    <div className="component-name">
+      {/* JSX */}
+    </div>
+  );
+};
+```
+
+### State Management
+- Use `useState` for local component state
+- Use `useEffect` for side effects and API calls
+- Implement loading and error states for async operations
+
+### API Calls
+- All API calls in `services/api.js`
+- Use async/await (not .then/.catch)
+- Always implement error handling with try-catch
+- Show loading states during API calls
+
+Example:
+```javascript
+const fetchData = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const response = await profileAPI.getProfile();
+    setData(response.data);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+```
+
+### Styling
+- Use CSS modules or scoped CSS classes
+- Follow BEM naming convention: `block__element--modifier`
+- Use CSS variables defined in `variables.css` for colors, spacing
+- Ensure responsive design with mobile-first approach
+- Dark mode is the default theme
+
+### File Naming
+- Components: PascalCase (e.g., `Navbar.jsx`, `ProjectCard.jsx`)
+- Utilities/Services: camelCase (e.g., `api.js`, `helpers.js`)
+- Styles: kebab-case (e.g., `navbar.css`, `variables.css`)
+
+## Backend Coding Standards
+
+### Python Style
+- Follow PEP 8 style guide
+- Use type hints for function parameters and return types
+- Use meaningful variable and function names
+- Maximum line length: 100 characters
+
+### FastAPI Routers
+- One router per resource (profile, projects, skills, etc.)
+- Use dependency injection for database sessions
+- Implement proper HTTP status codes
+- Add detailed docstrings for endpoints
+
+Example:
+```python
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from typing import List
+
+router = APIRouter()
+
+@router.get("/profile", response_model=ProfileSchema)
+async def get_profile(db: Session = Depends(get_db)):
+    """
+    Retrieve user profile information.
+    
+    Returns:
+        ProfileSchema: User profile data
+    """
+    profile = db.query(Profile).first()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    return profile
+```
+
+### Database Models
+- Use SQLAlchemy ORM models in `models/`
+- Use Pydantic schemas in `schemas/` for validation
+- Always define `__tablename__` explicitly
+- Add proper relationships and foreign keys
+
+### Error Handling
+- Use FastAPI HTTPException for API errors
+- Return appropriate status codes (200, 201, 400, 404, 500)
+- Include descriptive error messages
+- Log errors for debugging
+
+### Environment Variables
+- Never hardcode credentials or secrets
+- Use environment variables for:
+  - DATABASE_URL
+  - SMTP credentials
+  - API keys
+- Load using `os.getenv()` or `python-dotenv`
+
+## Database Guidelines
+- Use PostgreSQL for production (Vercel compatible)
+- Define clear relationships between models
+- Add indexes for frequently queried fields
+- Use migrations for schema changes (Alembic)
+
+## API Design
+- RESTful endpoint naming: `/api/resource` or `/api/resource/{id}`
+- Use proper HTTP methods: GET, POST, PUT, DELETE
+- Return consistent JSON response format
+- Implement pagination for list endpoints
+
+## Security Best Practices
+- Enable CORS only for your frontend domain in production
+- Validate all user inputs with Pydantic schemas
+- Sanitize data before database insertion
+- Use parameterized queries (SQLAlchemy handles this)
+- Implement rate limiting for contact form
+
+## Git Commit Messages
+- Use conventional commits: `type(scope): description`
+- Types: feat, fix, docs, style, refactor, test, chore
+- Examples:
+  - `feat(frontend): add project filtering component`
+  - `fix(api): resolve CORS configuration issue`
+  - `docs: update README with deployment instructions`
+
+## Testing Guidelines
+- Test API endpoints with FastAPI TestClient
+- Test React components with React Testing Library
+- Verify database operations work correctly
+- Test responsive design at different breakpoints
+
+## Deployment Checklist
+- Ensure `vercel.json` is properly configured
+- Set environment variables in Vercel dashboard
+- Test API endpoints after deployment
+- Verify frontend-backend communication
+- Check mobile responsiveness
+
+## Performance Optimization
+- Lazy load images and heavy components
+- Use React.memo for expensive components
+- Minimize bundle size (code splitting if needed)
+- Optimize database queries (avoid N+1 queries)
+- Use connection pooling for PostgreSQL
+
+## Accessibility
+- Use semantic HTML elements
+- Add proper ARIA labels where needed
+- Ensure keyboard navigation works
+- Maintain sufficient color contrast (dark mode)
+
+## Common Patterns
+
+### Loading State Pattern
+```javascript
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
+const [data, setData] = useState(null);
+
+// Show loading spinner, error message, or data
+```
+
+### FastAPI Dependency Pattern
+```python
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+
+### Error Boundary Pattern
+Wrap components that fetch data in error boundaries to gracefully handle failures.
+
+## Don't Do
+- Don't use class components in React
+- Don't hardcode API URLs (use environment variables)
+- Don't ignore error handling
+- Don't mix business logic in route handlers (use services/)
+- Don't commit `.env` files
+- Don't use `var` in JavaScript (use `const` or `let`)
+- Don't use SQLite for production (use PostgreSQL)
+
+## Helpful Commands
+```bash
+# Frontend development
+cd frontend && npm run dev
+
+# Backend local testing
+vercel dev
+
+# Deploy to Vercel
+vercel --prod
+
+# Install dependencies
+cd frontend && npm install
+cd api && pip install -r requirements.txt
+```
+
+## Notes for AI Assistant
+- Prioritize dark mode design with modern aesthetics
+- Implement glassmorphism and gradient effects
+- Ensure responsive design works on all devices
+- Follow the implementation plan and task checklist
+- Ask for clarification if requirements are unclear
