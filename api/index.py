@@ -1,9 +1,11 @@
 """
 FastAPI application entry point with Mangum handler for Vercel deployment.
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+from sqlalchemy.orm import Session
+from api.database import get_db
 
 import sys
 import os
