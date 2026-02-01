@@ -5,8 +5,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
+import sys
+import os
+
+# Path hack for monorepo imports: handles both local (root) and Vercel (api/ folder) execution
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if current_dir not in sys.path:
+    sys.path.append(current_dir)
+if parent_dir not in sys.path and os.path.basename(current_dir) == 'api':
+    sys.path.append(parent_dir)
+
 # Import routers
-from api.routers import profile, skills, projects, contact, analytics
+try:
+    from api.routers import profile, skills, projects, contact, analytics
+except ImportError:
+    from routers import profile, skills, projects, contact, analytics
 
 app = FastAPI(
     title="Bhargav's Digital Resume API",

@@ -22,12 +22,22 @@ if not DATABASE_URL:
 # connect_args={"check_same_thread": False} is only needed for SQLite
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=not DATABASE_URL.startswith("sqlite"),
-    pool_recycle=300,
-    connect_args=connect_args
-)
+# Standardize Neon/Postgres strings for SQLAlchemy 2.0+
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+print(f"Connecting to database: {DATABASE_URL.split('@')[-1]}") # Mask password
+
+try:
+    engine = create_engine(
+        DATABASE_URL,
+        pool_pre_ping=not DATABASE_URL.startswith("sqlite"),
+        pool_recycle=300,
+        connect_args=connect_args
+    )
+except Exception as e:
+    print(f"FAILED to create engine: {str(e)}")
+    raise
 
 # Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
