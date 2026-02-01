@@ -27,11 +27,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/api")
 async def root():
     return {"message": "Welcome to Bhargav's Digital Resume API"}
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     db_url = os.getenv("DATABASE_URL", "NOT_SET")
     return {
@@ -40,7 +40,7 @@ async def health_check():
         "provider": "Neon" if "neon.tech" in db_url.lower() else "Unknown"
     }
 
-@app.get("/debug-db")
+@app.get("/api/debug-db")
 async def debug_db(db: Session = Depends(get_db)):
     try:
         from api.models import Profile, Education, Project, Research, Skill
