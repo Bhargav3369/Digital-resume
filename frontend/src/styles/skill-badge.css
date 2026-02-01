@@ -21,6 +21,6 @@
     box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
 }
 
-.skill-badge.frameworks-&-libraries:hover {
+.skill-badge.frameworks-libraries:hover {
     box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
 }
