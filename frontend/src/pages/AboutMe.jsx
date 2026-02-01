@@ -69,7 +69,11 @@ const AboutMe = () => {
                             title={item.degree}
                             subtitle={item.institution}
                             date={`${item.start_date} - ${item.end_date || 'Present'}`}
-                            description={`GPA: ${item.gpa}`}
+                            description={
+                                item.degree.toLowerCase().includes('mpc') || item.degree.toLowerCase().includes('class 10')
+                                    ? `Percentage: ${item.gpa}%`
+                                    : `GPA: ${item.gpa}`
+                            }
                             items={item.achievements}
                             isProminent={index === 0}
                         />

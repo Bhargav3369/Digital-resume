@@ -2,9 +2,12 @@ import React from 'react';
 import '../styles/resume-card.css';
 
 const ResumeCard = ({ title, subtitle, date, description, items, isProminent }) => {
-    // Extract GPA from description if it exists (assuming format "GPA: 7.5")
+    // Extract Grade from description if it exists
     const gpaMatch = description?.match(/GPA:\s*([\d.]+)/i);
-    const gpa = gpaMatch ? gpaMatch[1] : null;
+    const percentageMatch = description?.match(/Percentage:\s*([\d.]+%?)/i);
+
+    const gradeLabel = gpaMatch ? 'GPA' : (percentageMatch ? 'Percentage' : null);
+    const gradeValue = gpaMatch ? gpaMatch[1] : (percentageMatch ? percentageMatch[1] : null);
 
     return (
         <div className={`education-item ${isProminent ? 'prominent' : 'secondary'}`}>
@@ -15,7 +18,7 @@ const ResumeCard = ({ title, subtitle, date, description, items, isProminent }) 
                         {isProminent && <span className="current-badge">Current</span>}
                     </h3>
                     <div className="education-meta">
-                        {date} {gpa && <span className="meta-separator">|</span>} {gpa && `GPA: ${gpa}`}
+                        {date} {gradeValue && <span className="meta-separator">|</span>} {gradeValue && `${gradeLabel}: ${gradeValue}`}
                     </div>
                 </div>
                 <h4 className="education-institution">{subtitle}</h4>
