@@ -1,13 +1,17 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/dist",
-  "devCommand": "cd frontend && npm run dev",
-  "installCommand": "pip install -r api/requirements.txt",
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3"
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
     }
-  },
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
