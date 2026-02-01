@@ -60,12 +60,30 @@ async def health_check():
     """Health check endpoint with database status."""
     import os
     db_url = os.getenv("DATABASE_URL", "NOT_SET")
-    is_cloud = "supabase" in db_url.lower() or "neon" in db_url.lower()
+    # Identify connection type without revealing credentials
+    is_neon = "neon.tech" in db_url.lower()
+    is_pooler = "pooler" in db_url.lower()
     return {
         "status": "healthy",
-        "database_connected": is_cloud,
-        "database_type": "Cloud" if is_cloud else "Local/None"
+        "db_provider": "Neon" if is_neon else "Other",
+        "using_pooler": is_pooler,
+        "env_check": "DATABASE_URL is set" if db_url != "NOT_SET" else "DATABASE_URL is MISSING"
     }
+
+@app.get("/debug-db")
+async def debug_db(db: Session = Depends(get_db)):
+    """Diagnostic endpoint to check row counts in the database."""
+    try:
+        from api.models import Profile, Education, Project, Research, Skill
+        return {
+            "profile_count": db.query(Profile).count(),
+            "education_count": db.query(Education).count(),
+            "project_count": db.query(Project).count(),
+            "research_count": db.query(Research).count(),
+            "skill_count": db.query(Skill).count(),
+        }
+    except Exception as e:
+        return {"error": f"Database query failed: {str(e)}"}
 
 # Register routers
 app.include_router(profile.router, prefix="/api", tags=["Profile"])
