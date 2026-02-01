@@ -4,8 +4,8 @@
   "devCommand": "cd frontend && npm run dev",
   "installCommand": "pip install -r api/requirements.txt",
   "functions": {
-    "api/*.py": {
-      "runtime": "python3.12"
+    "api/index.py": {
+      "runtime": "python3"
     }
   },
   "rewrites": [
